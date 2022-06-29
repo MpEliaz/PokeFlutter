@@ -15,7 +15,8 @@ class PokeDexPage extends StatefulWidget {
 
 class _PokeDexPageState extends State<PokeDexPage> {
   var _pokemonName = '';
-  var _pokemonUrlImage = 'https://via.placeholder.com/150/92c952';
+  var _pokemonUrlImage =
+      'https://www.crearmemes.es/uploads/galeria/meme-136-pulp-fiction-john-travolta-confuso-gerador-de-memes.jpg';
   final _selectedPokemon = [];
   var _isVisibleName = false;
   late TextEditingController _controller;
@@ -113,12 +114,7 @@ class _PokeDexPageState extends State<PokeDexPage> {
               _pokemonUrlImage,
               height: 300,
             ),
-            Visibility(
-              visible: _isVisibleName,
-              replacement:
-                  const Text('**********', style: TextStyle(fontSize: 50)),
-              child: Text(_pokemonName, style: const TextStyle(fontSize: 50)),
-            ),
+            Text(_pokemonName, style: const TextStyle(fontSize: 50)),
             TextField(
               controller: _controller,
             ),
@@ -127,11 +123,6 @@ class _PokeDexPageState extends State<PokeDexPage> {
                   _fetchPokemon();
                 },
                 child: const Text('Obtener Pokemon!')),
-            ElevatedButton(
-                onPressed: () {
-                  _setNameVisible();
-                },
-                child: const Text('Descubrir Nombre!')),
             ElevatedButton(
                 onPressed: _selectedPokemon.length >= 5
                     ? null
