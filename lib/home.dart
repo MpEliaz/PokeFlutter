@@ -18,25 +18,33 @@ class _PokeDexPageState extends State<PokeDexPage> {
   var _pokemonUrlImage = 'https://via.placeholder.com/150/92c952';
   final _selectedPokemon = [];
   var _isVisibleName = false;
+  late TextEditingController _controller;
 
   void _fetchPokemon() async {
     var _random = Random();
     var _randomId = _random.nextInt(150);
     _isVisibleName = false;
 
-    var url = Uri.parse('https://pokeapi.co/api/v2/pokemon/$_randomId');
+    var url =
+        Uri.parse('https://pokeapi.co/api/v2/pokemon/${_controller.text}');
+    if (_controller.text.isNotEmpty) {
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        var jsonResponse =
+            convert.jsonDecode(response.body) as Map<String, dynamic>;
 
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-      var jsonResponse =
-          convert.jsonDecode(response.body) as Map<String, dynamic>;
+        _pokemonName = jsonResponse['name'];
+        _pokemonUrlImage = jsonResponse['sprites']['other']['official-artwork']
+            ['front_default'];
+        setState(() {});
+      }
+      if (response.statusCode == 404) {
+        _pokemonName = ':(';
+        _pokemonUrlImage =
+            'https://cdn.dribbble.com/users/4040675/screenshots/10545158/media/85a3329e4202059593616d3b42f16e8d.png?compress=1&resize=400x300';
 
-      _pokemonName = jsonResponse['name'];
-      _pokemonUrlImage =
-          jsonResponse['sprites']['other']['official-artwork']['front_default'];
-      setState(() {});
-    } else {
-      print('Request failed with status: ${response.statusCode}.');
+        setState(() {});
+      }
     }
   }
 
@@ -60,6 +68,18 @@ class _PokeDexPageState extends State<PokeDexPage> {
     setState(() {
       _isVisibleName = true;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -98,6 +118,9 @@ class _PokeDexPageState extends State<PokeDexPage> {
               replacement:
                   const Text('**********', style: TextStyle(fontSize: 50)),
               child: Text(_pokemonName, style: const TextStyle(fontSize: 50)),
+            ),
+            TextField(
+              controller: _controller,
             ),
             ElevatedButton(
                 onPressed: () {
