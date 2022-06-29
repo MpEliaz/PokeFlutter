@@ -15,7 +15,8 @@ class PokeDexPage extends StatefulWidget {
 
 class _PokeDexPageState extends State<PokeDexPage> {
   var _pokemonName = '';
-  var _pokemonUrlImage = 'https://via.placeholder.com/150/92c952';
+  var _pokemonUrlImage =
+      'https://www.crearmemes.es/uploads/galeria/meme-136-pulp-fiction-john-travolta-confuso-gerador-de-memes.jpg';
   final _selectedPokemon = [];
   var _isVisibleName = false;
 
