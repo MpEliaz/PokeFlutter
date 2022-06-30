@@ -21,7 +21,7 @@ class _PokeDexPageState extends State<PokeDexPage> {
   var _isVisibleName = false;
 
   void _fetchPokemon() async {
-    var _random = Random();
+    final _random = Random();
     var _randomId = _random.nextInt(150);
     _isVisibleName = false;
 
@@ -87,8 +87,6 @@ class _PokeDexPageState extends State<PokeDexPage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.network(
               _pokemonUrlImage,
